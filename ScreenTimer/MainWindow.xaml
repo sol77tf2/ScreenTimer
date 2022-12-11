@@ -1,0 +1,19 @@
+﻿<Window x:Class="ScreenTimer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ScreenTimer"
+        mc:Ignorable="d"
+        Title="ScreenTimer" Height="350" Width="700">
+    <Grid>
+        <Button x:Name="CreateProfile" Content="プロファイル作成" HorizontalAlignment="Left" Margin="547,31,0,0" VerticalAlignment="Top" Width="114" Click="CreateProfile_Click"/>
+        <Label x:Name="OverWatchTitle" Content="OverWatch" HorizontalAlignment="Left" Height="33" Margin="37,90,0,0" VerticalAlignment="Top" Width="93"/>
+        <Label x:Name="MapleStoryTitle" Content="MapleStory" HorizontalAlignment="Left" Height="33" Margin="37,128,0,0" VerticalAlignment="Top" Width="93"/>
+        <Label x:Name="LimitOw" Content="Limit" HorizontalAlignment="Left" Height="33" Margin="135,90,0,0" VerticalAlignment="Top" Width="125"/>
+        <Label x:Name="LimitMs" Content="Limit" HorizontalAlignment="Left" Height="33" Margin="135,128,0,0" VerticalAlignment="Top" Width="125"/>
+        <Label x:Name="PlayTimeOw" Content="PlayTime" HorizontalAlignment="Left" Height="33" Margin="265,89,0,0" VerticalAlignment="Top" Width="125"/>
+        <Label x:Name="PlayTimeMs" Content="PlayTime" HorizontalAlignment="Left" Height="33" Margin="265,127,0,0" VerticalAlignment="Top" Width="125"/>
+
+    </Grid>
+</Window>

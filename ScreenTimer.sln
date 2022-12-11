@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33122.133
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenTimer", "ScreenTimer\ScreenTimer.csproj", "{52610A6D-2512-4CC7-BE79-5B2375C767DA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{52610A6D-2512-4CC7-BE79-5B2375C767DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52610A6D-2512-4CC7-BE79-5B2375C767DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52610A6D-2512-4CC7-BE79-5B2375C767DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52610A6D-2512-4CC7-BE79-5B2375C767DA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {05AF9989-5A65-4074-9024-0D48928EF8A9}
+	EndGlobalSection
+EndGlobal
