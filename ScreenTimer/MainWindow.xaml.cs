@@ -16,11 +16,10 @@ namespace ScreenTimer
     public partial class MainWindow : Window
     {
         private DispatcherTimer _timer;
-
-        private const int hour = 60;
+        
+        private const int hour = 1;
         private const int minute = 60;
         private const int second = 60;
-        private const int HOUR1 = minute * second;
 
         private const int minuteAdd = 60;
         private const int timerMinute = 1;
@@ -82,8 +81,8 @@ namespace ScreenTimer
                 myConfigOw = configs[0];
                 myConfigMs = configs[1];
 
-                this.LimitOw.Content = myConfigOw.Limit + " （" + (myConfigOw.Limit / HOUR1) + "分 ）";
-                this.LimitMs.Content = myConfigMs.Limit + " （" + (myConfigMs.Limit / HOUR1) + "分 ）";
+                this.LimitOw.Content = myConfigOw.Limit + " （" + (myConfigOw.Limit / minute) + "分 ）";
+                this.LimitMs.Content = myConfigMs.Limit + " （" + (myConfigMs.Limit / minute) + "分 ）";
                 this.PlayTimeOw.Content = myConfigOw.PlayTime + " （" + (myConfigOw.PlayTime / minuteAdd) + "分 ）";
                 this.PlayTimeMs.Content = myConfigMs.PlayTime + " （" + (myConfigMs.PlayTime / minuteAdd) + "分 ）";
 
