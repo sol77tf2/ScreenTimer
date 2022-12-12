@@ -17,7 +17,7 @@ namespace ScreenTimer
     {
         private DispatcherTimer _timer;
 
-        private const int hour = 1;
+        private const int hour = 60;
         private const int minute = 60;
         private const int second = 60;
         private const int HOUR1 = minute * second;
@@ -40,26 +40,7 @@ namespace ScreenTimer
             // 今日の日付のコンフィグを取得
             string today = DateTime.Now.ToString("yyyyMMdd");
             TODAY_CSV = today + ".csv";
-
-            var config = new CsvConfiguration(CultureInfo.GetCultureInfo("ja-jp"))
-            {
-                Encoding = Encoding.UTF8
-            };
-
-            if(File.Exists(ConfigPath + TODAY_CSV))
-            {
-                using var csv = new CsvReader(File.OpenText(ConfigPath + TODAY_CSV), config);
-                var configs = csv.GetRecords<MyConfig>().ToList();
-                myConfigOw = configs[0];
-                myConfigMs = configs[1];
-
-                this.LimitOw.Content = myConfigOw.Limit + " （" + (myConfigOw.Limit / HOUR1) + "分 ）";
-                this.LimitMs.Content = myConfigMs.Limit + " （" + (myConfigMs.Limit / HOUR1) + "分 ）";
-                this.PlayTimeOw.Content = myConfigOw.PlayTime;
-                this.PlayTimeMs.Content = myConfigMs.PlayTime;
-
-                Monitoring();
-            }
+            Start();
         }
 
         private void CreateProfile_Click(object sender, RoutedEventArgs e)
@@ -81,6 +62,31 @@ namespace ScreenTimer
                     writer.WriteLine(writeStr);
                 }
             }
+            Start();
+        }
+
+        private void Start()
+        {
+            var config = new CsvConfiguration(CultureInfo.GetCultureInfo("ja-jp"))
+            {
+                Encoding = Encoding.UTF8
+            };
+
+            if (File.Exists(ConfigPath + TODAY_CSV))
+            {
+                using var csv = new CsvReader(File.OpenText(ConfigPath + TODAY_CSV), config);
+                var configs = csv.GetRecords<MyConfig>().ToList();
+                myConfigOw = configs[0];
+                myConfigMs = configs[1];
+
+                this.LimitOw.Content = myConfigOw.Limit + " （" + (myConfigOw.Limit / HOUR1) + "分 ）";
+                this.LimitMs.Content = myConfigMs.Limit + " （" + (myConfigMs.Limit / HOUR1) + "分 ）";
+                this.PlayTimeOw.Content = myConfigOw.PlayTime;
+                this.PlayTimeMs.Content = myConfigMs.PlayTime;
+
+                Monitoring();
+            }
+
         }
 
         private void Monitoring()

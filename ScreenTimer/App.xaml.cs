@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
+using System.Diagnostics;
 
 namespace ScreenTimer
 {
@@ -13,34 +8,36 @@ namespace ScreenTimer
     /// </summary>
     public partial class App : Application
     {
+        private System.Windows.Forms.ContextMenuStrip menu = new();
+        System.Windows.Forms.NotifyIcon notifyIcon = new();
+
         protected override void OnStartup(StartupEventArgs e)
         {
-            base.OnStartup(e);
+            // 右クリックに出すのコンテキストメニューを作成
+            menu.Items.Add("アプリを終了します", null, (obj, e) => { Shutdown(); });
 
-            var icon = GetResourceStream(new Uri("ico.ico", UriKind.Relative)).Stream;
-            /*
-            var notifyIcon = new System.Windows.Forms.NotifyIcon
+            // タスクトレイ上のアイコンを作成
+            notifyIcon.Visible = true;
+            notifyIcon.Icon = new System.Drawing.Icon(@"ico.ico"); // 今回は、icoファイルを「常にコピー」にしておいて、exeと同じ階層にicoができるようにして使用
+            notifyIcon.Text = "ScreenTimer";
+            notifyIcon.ContextMenuStrip = menu;
+
+            // アイコンを押したときの処理
+            notifyIcon.Click += (obj, e) =>
             {
-                Visible = true,
-                Icon = new System.Drawing.Icon(icon),
-                Text = "タスクトレイ常駐アプリのテストです"
+                Debug.WriteLine("クリックされました");
             };
-            */
-        }
-        /*
-        private void NotifyIcon_Click(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            if (e.Button == System.Windows.Forms.MouseButtons.Left)
-            {
-                var wnd = new MainWindow();
-                wnd.Show();
-            }
+
+            // プロセス通常起動
+            base.OnStartup(e);
         }
 
-        private void Exit_Click(object sender, EventArgs e)
+        protected override void OnExit(ExitEventArgs e)
         {
-            Shutdown();
+            menu.Dispose();
+            notifyIcon.Dispose();
+
+            base.OnExit(e);
         }
-        */
     }
 }
