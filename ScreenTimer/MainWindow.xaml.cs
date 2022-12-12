@@ -22,6 +22,9 @@ namespace ScreenTimer
         private const int second = 60;
         private const int HOUR1 = minute * second;
 
+        private const int minuteAdd = 60;
+        private const int timerMinute = 1;
+
         private const string ConfigPath = "D:\\work\\ScreenTimer\\config\\";
         private const string Overwatch = "Overwatch";
         private const string MapleStory = "MapleStory";
@@ -81,8 +84,8 @@ namespace ScreenTimer
 
                 this.LimitOw.Content = myConfigOw.Limit + " （" + (myConfigOw.Limit / HOUR1) + "分 ）";
                 this.LimitMs.Content = myConfigMs.Limit + " （" + (myConfigMs.Limit / HOUR1) + "分 ）";
-                this.PlayTimeOw.Content = myConfigOw.PlayTime;
-                this.PlayTimeMs.Content = myConfigMs.PlayTime;
+                this.PlayTimeOw.Content = myConfigOw.PlayTime + " （" + (myConfigOw.PlayTime / minuteAdd) + "分 ）";
+                this.PlayTimeMs.Content = myConfigMs.PlayTime + " （" + (myConfigMs.PlayTime / minuteAdd) + "分 ）";
 
                 Monitoring();
             }
@@ -95,7 +98,7 @@ namespace ScreenTimer
             _timer = new DispatcherTimer(DispatcherPriority.Background);
 
             // インターバルを設定
-            _timer.Interval = new TimeSpan(0, 3, 0);
+            _timer.Interval = new TimeSpan(0, timerMinute, 0);
 
             // タイマメソッドを設定
             _timer.Tick += (e, s) => { MonitoringProcess(); };
@@ -108,7 +111,6 @@ namespace ScreenTimer
 
         private void MonitoringProcess()
         {
-            int minute3 = 180;
             // 実行中のすべてのプロセスを取得する
             System.Diagnostics.Process[] hProcesses = System.Diagnostics.Process.GetProcesses();
 
@@ -128,17 +130,17 @@ namespace ScreenTimer
             }
             if (writeOw)
             {
-                myConfigOw.PlayTime += minute3;
-                this.PlayTimeOw.Content = myConfigOw.PlayTime.ToString();
-                if( myConfigOw.PlayTime / myConfigOw.Limit > 0.9)
+                myConfigOw.PlayTime += minuteAdd;
+                this.PlayTimeOw.Content = myConfigOw.PlayTime + " （" + (myConfigOw.PlayTime / minuteAdd) + "分 ）";
+                if ( myConfigOw.PlayTime / myConfigOw.Limit > 0.9)
                 {
                     MessageBox.Show(Overwatch, Overwatch+"のプレイしすぎです");
                 }
             }
             if (writeMs)
             {
-                myConfigMs.PlayTime += minute3;
-                this.PlayTimeMs.Content = myConfigMs.PlayTime.ToString();
+                myConfigMs.PlayTime += minuteAdd;
+                this.PlayTimeMs.Content = myConfigMs.PlayTime + " （" + (myConfigMs.PlayTime / minuteAdd) + "分 ）";
                 if (myConfigMs.PlayTime / myConfigMs.Limit > 0.9)
                 {
                     MessageBox.Show(MapleStory, MapleStory+"のプレイしすぎです");
