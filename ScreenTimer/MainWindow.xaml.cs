@@ -18,7 +18,7 @@ namespace ScreenTimer
     {
         private DispatcherTimer _timer;
 
-        private string zenkakuSpace = "";
+        private string zenkakuSpace = "　";
 
         private const int hour = 1;
         private const int minute = 60;
@@ -48,7 +48,11 @@ namespace ScreenTimer
 
             for (int i = 0; i < 5000; i++)
             {
-                this.zenkakuSpace += "　";
+                this.zenkakuSpace += "■";
+                if(i % 250 == 0)
+                {
+                    this.zenkakuSpace += "\r\n";
+                }
             }
 
             Start();
@@ -176,12 +180,13 @@ namespace ScreenTimer
 
         private void ShowMessageBox(string process)
         {
-            string rn = "\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n";
             new Thread(new ThreadStart(delegate
 
             {
-                MessageBox.Show(process + "のプレイしすぎです" + zenkakuSpace + rn
-                    , process + "のプレイしすぎです" + zenkakuSpace);
+                MessageBox.Show(process + "のプレイしすぎです" + zenkakuSpace
+                    , process + "のプレイしすぎです" + zenkakuSpace
+                    , MessageBoxButton.OK
+                    , MessageBoxImage.Information);
             })).Start();
         }
     }
