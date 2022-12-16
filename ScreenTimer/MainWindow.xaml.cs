@@ -1,10 +1,11 @@
-﻿using CsvHelper.Configuration;
-using CsvHelper;
+﻿using CsvHelper;
+using CsvHelper.Configuration;
 using System;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -16,7 +17,9 @@ namespace ScreenTimer
     public partial class MainWindow : Window
     {
         private DispatcherTimer _timer;
-        
+
+        private string zenkakuSpace = "";
+
         private const int hour = 1;
         private const int minute = 60;
         private const int second = 60;
@@ -42,6 +45,12 @@ namespace ScreenTimer
             // 今日の日付のコンフィグを取得
             string today = DateTime.Now.ToString("yyyyMMdd");
             TODAY_CSV = today + ".csv";
+
+            for (int i = 0; i < 5000; i++)
+            {
+                this.zenkakuSpace += "　";
+            }
+
             Start();
         }
 
@@ -64,6 +73,7 @@ namespace ScreenTimer
                     writer.WriteLine(writeStr);
                 }
             }
+
             Start();
         }
 
@@ -133,7 +143,7 @@ namespace ScreenTimer
                 this.PlayTimeOw.Content = myConfigOw.PlayTime + " （" + (myConfigOw.PlayTime / minuteAdd) + "分 ）";
                 if ( myConfigOw.PlayTime / myConfigOw.Limit > 0.9)
                 {
-                    MessageBox.Show(Overwatch, Overwatch+"のプレイしすぎです");
+                    ShowMessageBox(Overwatch);
                 }
             }
             if (writeMs)
@@ -142,7 +152,7 @@ namespace ScreenTimer
                 this.PlayTimeMs.Content = myConfigMs.PlayTime + " （" + (myConfigMs.PlayTime / minuteAdd) + "分 ）";
                 if (myConfigMs.PlayTime / myConfigMs.Limit > 0.9)
                 {
-                    MessageBox.Show(MapleStory, MapleStory+"のプレイしすぎです");
+                    ShowMessageBox(MapleStory);
                 }
             }
 
@@ -163,6 +173,17 @@ namespace ScreenTimer
             return writeStr;
         }
 
+
+        private void ShowMessageBox(string process)
+        {
+            string rn = "\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n";
+            new Thread(new ThreadStart(delegate
+
+            {
+                MessageBox.Show(process + "のプレイしすぎです" + zenkakuSpace + rn
+                    , process + "のプレイしすぎです" + zenkakuSpace);
+            })).Start();
+        }
     }
     public class MyConfig
     {
