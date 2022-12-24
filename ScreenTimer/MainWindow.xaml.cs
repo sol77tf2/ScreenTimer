@@ -28,8 +28,6 @@ namespace ScreenTimer
         private const int timerMinute = 1;
 
         private const string ConfigPath = "D:\\work\\ScreenTimer\\config\\";
-        private const string Overwatch = "Overwatch";
-        private const string MapleStory = "MapleStory";
         private const string header = "Process,PlayTime,Limit";
 
         private string TODAY_CSV = "";
@@ -63,8 +61,8 @@ namespace ScreenTimer
             int hourMinute1 = hour * minute * second;
             int hourMinute2 = hourMinute1 * 2;
 
-            string ow = Overwatch + ",0," + hourMinute1;
-            string ms = MapleStory + ",0," + hourMinute2;
+            string ow = Common.ProcessName.Overwatch.ToString() + ",0," + hourMinute1;
+            string ms = Common.ProcessName.MapleStory.ToString() + ",0," + hourMinute2;
             string writeStr = header + System.Environment.NewLine +
                 ow + System.Environment.NewLine +
                 ms;
@@ -132,11 +130,11 @@ namespace ScreenTimer
             // 取得できたプロセスからプロセス名を取得する
             foreach (System.Diagnostics.Process hProcess in hProcesses)
             {
-                if (Overwatch == hProcess.ProcessName)
+                if (Common.ProcessName.Overwatch.ToString() == hProcess.ProcessName)
                 {
                     writeOw = true;
                 }
-                if (MapleStory == hProcess.ProcessName)
+                if (Common.ProcessName.MapleStory.ToString() == hProcess.ProcessName)
                 {
                     writeMs = true;
                 }
@@ -145,18 +143,26 @@ namespace ScreenTimer
             {
                 myConfigOw.PlayTime += minuteAdd;
                 this.PlayTimeOw.Content = myConfigOw.PlayTime + " （" + (myConfigOw.PlayTime / minuteAdd) + "分 ）";
-                if ( myConfigOw.PlayTime / myConfigOw.Limit > 0.9)
+                if ( myConfigOw.PlayTime / myConfigOw.Limit >= 0.85 && myConfigOw.PlayTime / myConfigOw.Limit <= 0.99)
                 {
-                    ShowMessageBox(Overwatch);
+                    WarningShowMessageBox(Common.ProcessName.Overwatch);
+                }
+                else if(myConfigOw.PlayTime / myConfigOw.Limit >= 1)
+                {
+                    ProcessKillShow(Common.ProcessName.Overwatch);
                 }
             }
             if (writeMs)
             {
                 myConfigMs.PlayTime += minuteAdd;
                 this.PlayTimeMs.Content = myConfigMs.PlayTime + " （" + (myConfigMs.PlayTime / minuteAdd) + "分 ）";
-                if (myConfigMs.PlayTime / myConfigMs.Limit > 0.9)
+                if (myConfigMs.PlayTime / myConfigMs.Limit >= 0.85 && myConfigMs.PlayTime / myConfigMs.Limit >= 0.99)
                 {
-                    ShowMessageBox(MapleStory);
+                    WarningShowMessageBox(Common.ProcessName.MapleStory);
+                }
+                else if (myConfigMs.PlayTime / myConfigMs.Limit >= 1)
+                {
+                    ProcessKillShow(Common.ProcessName.MapleStory);
                 }
             }
 
@@ -172,28 +178,39 @@ namespace ScreenTimer
         {
             // "Process,PlayTime,Limit"
             string writeStr = header + System.Environment.NewLine +
-                Overwatch + "," + myConfigOw.PlayTime + "," + myConfigOw.Limit + System.Environment.NewLine +
-                MapleStory + "," + myConfigMs.PlayTime + "," + myConfigMs.Limit;
+                Common.ProcessName.Overwatch.ToString() + "," + myConfigOw.PlayTime + "," + myConfigOw.Limit + System.Environment.NewLine +
+                Common.ProcessName.MapleStory.ToString() + "," + myConfigMs.PlayTime + "," + myConfigMs.Limit;
             return writeStr;
         }
 
 
-        private void ShowMessageBox(string process)
+        private void WarningShowMessageBox(Common.ProcessName process)
         {
             new Thread(new ThreadStart(delegate
-
             {
-                MessageBox.Show(process + "のプレイしすぎです" + zenkakuSpace
-                    , process + "のプレイしすぎです" + zenkakuSpace
+                MessageBox.Show("！！警告！！" + process.ToString() + "のプレイしすぎです" + zenkakuSpace
+                    , "！！警告！！" + process.ToString() + "のプレイしすぎです" + zenkakuSpace
                     , MessageBoxButton.OK
                     , MessageBoxImage.Information);
             })).Start();
+        }
+
+        private void ProcessKillShow(Common.ProcessName process)
+        {
+            KillProcess kp = new KillProcess(process);
+            kp.ShowDialog();
+            /*
+            new Thread(new ThreadStart(delegate
+            {
+                kp.ShowDialog();
+            })).Start();
+            */
         }
     }
     public class MyConfig
     {
         public string Process { get; set; }
-        public int PlayTime { get; set; }
+        public double PlayTime { get; set; }
         public int Limit { get; set; }
     }
 }
