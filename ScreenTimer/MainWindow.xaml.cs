@@ -156,7 +156,7 @@ namespace ScreenTimer
             {
                 myConfigMs.PlayTime += minuteAdd;
                 this.PlayTimeMs.Content = myConfigMs.PlayTime + " （" + (myConfigMs.PlayTime / minuteAdd) + "分 ）";
-                if (myConfigMs.PlayTime / myConfigMs.Limit >= 0.85 && myConfigMs.PlayTime / myConfigMs.Limit >= 0.99)
+                if (myConfigMs.PlayTime / myConfigMs.Limit >= 0.85 && myConfigMs.PlayTime / myConfigMs.Limit <= 0.99)
                 {
                     WarningShowMessageBox(Common.ProcessName.MapleStory);
                 }
